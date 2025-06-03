@@ -127,18 +127,117 @@ COLOR_WHITE   = "#FFFFFF"
 st.markdown(
     """
     <style>
+    /* Override Streamlit's container width */
+    .main .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        max-width: none !important;
+    }
+    
+    .navbar-container {
+        background: linear-gradient(135deg, rgba(43, 45, 66, 0.95), rgba(43, 45, 66, 0.85));
+        padding: 20px 30px;
+        border-radius: 15px;
+        margin: 0 calc(-50vw + 50%) 30px calc(-50vw + 50%);
+        width: 100vw;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(229, 192, 86, 0.2);
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        margin-top: -70px;
+    }
+    
     .navbar-title {
         font-family: 'Bernard MT Condensed', serif !important;
-        font-size: 3rem;
+        font-size: 3.2rem;
         color: #FFFFFF;
-        margin: 0;
+        margin: 0 0 15px 0;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
+    
     .navbar-title .highlight {
         font-family: 'Bernard MT Condensed', serif !important;
         color: #E5C056;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
+    
     .navbar-menu {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Custom radio button styling */
+    .stRadio > div {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .stRadio > div > label {
+        background: linear-gradient(145deg, rgba(229, 192, 86, 0.1), rgba(229, 192, 86, 0.05));
+        color: #FFFFFF !important;
+        padding: 12px 24px !important;
+        border-radius: 25px !important;
+        border: 2px solid rgba(229, 192, 86, 0.3) !important;
+        transition: all 0.3s ease !important;
+        cursor: pointer !important;
+        font-weight: 500 !important;
+        font-size: 16px !important;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stRadio > div > label:hover {
+        background: linear-gradient(145deg, rgba(229, 192, 86, 0.2), rgba(229, 192, 86, 0.1)) !important;
+        border-color: rgba(229, 192, 86, 0.6) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(229, 192, 86, 0.2) !important;
+    }
+    
+    .stRadio > div > label[data-checked="true"] {
+        background: linear-gradient(145deg, #E5C056, #d4af4a) !important;
+        color: #2B2D42 !important;
+        border-color: #E5C056 !important;
+        font-weight: 700 !important;
+        box-shadow: 0 6px 25px rgba(229, 192, 86, 0.4) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    /* Hide radio button circles */
+    .stRadio > div > label > div:first-child {
+        display: none !important;
+    }
+    
+    /* Style the text container */
+    .stRadio > div > label > div:last-child {
+        padding-left: 0 !important;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .navbar-title {
+            font-size: 2.5rem;
+        }
+        
+        .stRadio > div {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .stRadio > div > label {
+            padding: 10px 18px !important;
+            font-size: 14px !important;
+        }
+        
+        .navbar-container {
+            padding: 15px 20px;
+        }
     }
     </style>
 
@@ -154,7 +253,8 @@ menu = st.radio(
     ("Changing Borders", "The Population", "The Cost", "Data Sources"),
     horizontal=True,
     index=0,
-    label_visibility="collapsed"
+    label_visibility="collapsed",
+    key="main_navigation"
 )
 
 st.markdown(
@@ -750,7 +850,7 @@ elif menu == "Data Sources":
 st.markdown(
     """
     <div class="custom-footer">
-        © 2024 Visdat Group 5's Dashboard. All rights reserved.
+        © 2025 Visdat Group 5's Dashboard. All rights reserved.
     </div>
     """,
     unsafe_allow_html=True
