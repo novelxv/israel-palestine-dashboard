@@ -332,37 +332,37 @@ def show_changing_borders():
 
         st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
-        # color legend for map
-        st.markdown(
-            f"""
-            <div style="
-                display: flex; 
-                align-items: center; 
-                gap: 1rem; 
-                margin-top: 0.5rem;
-            ">
-              <div style="
-                  width:20px; 
-                  height:20px; 
-                  background-color:#020404; 
-                  border-radius:3px;
-                  border:1px solid #FFFFFF;
-                  ">
-              </div>
-              <span style="color:#FFFFFF; font-size:0.95rem;">Israel</span>
-              <div style="
-                  width:20px; 
-                  height:20px; 
-                  background-color:{COLOR_ACCENT}; 
-                  border-radius:3px;
-                  border:1px solid #FFFFFF;
-                  ">
-              </div>
-              <span style="color:#FFFFFF; font-size:0.95rem;">Palestine</span>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # # color legend for map
+        # st.markdown(
+        #     f"""
+        #     <div style="
+        #         display: flex; 
+        #         align-items: center; 
+        #         gap: 1rem; 
+        #         margin-top: 0.5rem;
+        #     ">
+        #       <div style="
+        #           width:20px; 
+        #           height:20px; 
+        #           background-color:#020404; 
+        #           border-radius:3px;
+        #           border:1px solid #FFFFFF;
+        #           ">
+        #       </div>
+        #       <span style="color:#FFFFFF; font-size:0.95rem;">Israel</span>
+        #       <div style="
+        #           width:20px; 
+        #           height:20px; 
+        #           background-color:{COLOR_ACCENT}; 
+        #           border-radius:3px;
+        #           border:1px solid #FFFFFF;
+        #           ">
+        #       </div>
+        #       <span style="color:#FFFFFF; font-size:0.95rem;">Palestine</span>
+        #     </div>
+        #     """,
+        #     unsafe_allow_html=True
+        # )
 
     with col_right:
         if   selected_year == 1918: img_path = "assets/1918.png"
@@ -377,12 +377,12 @@ def show_changing_borders():
                 st.image(
                     image,
                     use_container_width=False,
-                    width=200
+                    width=400
                 )
                 st.markdown(
                     f"""
                     <p style="color: #FFFFFF; font-weight: bold; 
-                              margin-top: 0.5rem; font-size: 0.95rem; margin-left: 3.5rem;">
+                              margin-top: 0.5rem; font-size: 0.95rem; margin-left: 11.5rem;">
                       Map year {selected_year}
                     </p>
                     """,
@@ -595,7 +595,7 @@ def show_cost():
     overview_col1, overview_col2, overview_col3 = st.columns([1,1,1])
     with overview_col1:
         st.markdown(f"<h2 style='color:{COLOR_WHITE};'>Over</h2>", unsafe_allow_html=True)
-        st.markdown(f"<h1 style='font-size:2.5rem; color:{COLOR_ACCENT};'>{total_deaths:,}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='font-size:2.5rem; color:{COLOR_ACCENT}; margin-top:-1rem;'>{total_deaths:,}</h1>", unsafe_allow_html=True)
         st.markdown(f"<p style='color:{COLOR_WHITE}; font-size:0.9rem;'>lives lost across all sides since 1948.</p>", unsafe_allow_html=True)
     with overview_col2:
         st.markdown(f"<h3 style='color:{COLOR_WHITE};'><span style='color:{COLOR_ACCENT};'>Palestinian</span> lives lost</h3>", unsafe_allow_html=True)
