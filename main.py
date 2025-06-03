@@ -13,7 +13,7 @@ from PIL import Image
 import io
 
 # ---------------------------------------------------------------------------
-# 1. KONFIGURASI HALAMAN & BACKGROUND
+# 1. PAGE CONFIGURATION & BACKGROUND
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
@@ -23,10 +23,10 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Fungsi untuk meng‐embed background image (bg.png) via base64
+# Function to embed background image (bg.png) via base64
 def set_background(png_path: str):
     """
-    Memuat gambar dari assets/bg.png dan meng‐embed ke CSS background full‐screen.
+    Load image from assets/bg.png and embed it as CSS background full-screen.
     """
     with open(png_path, "rb") as file:
         data = file.read()
@@ -46,20 +46,20 @@ def set_background(png_path: str):
 set_background("assets/bg.png")
 
 # ---------------------------------------------------------------------------
-# 2. CUSTOM FONTS & WARNA GLOBAL
+# 2. CUSTOM FONTS & GLOBAL COLORS
 # ---------------------------------------------------------------------------
 
 FONT_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
-/* Terapan untuk seluruh aplikasi */
+/* Application-wide styling */
 body, * {
     font-family: 'Poppins', sans-serif !important;
     color: #FFFFFF;
 }
 
-/* Judul utama & sub‐judul menggunakan Bernard MT Condensed */
+/* Main titles & subtitles using Bernard MT Condensed */
 h1 {
     font-family: 'Bernard MT Condensed', serif !important;
     color: #E5C056;
@@ -72,7 +72,7 @@ h2 {
     margin-bottom: 0.5rem;
 }
 
-/* Untuk subtitle/h3 kita pakai Poppins Bold */
+/* For subtitle/h3 we use Poppins Bold */
 h3 {
     font-family: 'Poppins', sans-serif !important;
     color: #E5C056;
@@ -80,14 +80,14 @@ h3 {
     margin-bottom: 0.5rem;
 }
 
-/* Warna box, card, dll */
+/* Box and card colors */
 .div-box {
     background-color: rgba(43, 45, 66, 0.8);
     padding: 1rem;
     border-radius: 8px;
 }
 
-/* Hide default Streamlit menu & footer jika di‐inginkan */
+/* Hide default Streamlit menu & footer if desired */
 # MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 </style>
@@ -95,12 +95,12 @@ footer {visibility: hidden;}
 st.markdown(FONT_CSS, unsafe_allow_html=True)
 
 # Global color palette
-COLOR_PRIMARY = "#2B2D42"   # navy gelap
-COLOR_ACCENT  = "#E5C056"   # kuning keemasan
+COLOR_PRIMARY = "#2B2D42"   # dark navy
+COLOR_ACCENT  = "#E5C056"   # golden yellow
 COLOR_WHITE   = "#FFFFFF"
 
 # ---------------------------------------------------------------------------
-# 3. NAVIGASI HORIZONTAL (menu top bar)
+# 3. HORIZONTAL NAVIGATION (top menu bar)
 # ---------------------------------------------------------------------------
 menu = st.radio(
     "", 
@@ -111,20 +111,16 @@ menu = st.radio(
 )
 
 # ---------------------------------------------------------------
-# 4. FUNGSIONALITAS MENGISI SETIAP HALAMAN (PAGE) BERDASARKAN MENU
+# 4. FUNCTIONALITY FOR EACH PAGE BASED ON MENU
 # ---------------------------------------------------------------
 
-# 4.1 Halaman "Changing Borders"
+# 4.1 "Changing Borders" Page
 def show_changing_borders():
-    # 1. Bagi menjadi dua kolom dengan lebar sama (1:1)
     col_left, col_right = st.columns([2, 1])
 
-    # 2. DI DALAM KOLONG KIRI: Judul, kotak penjelasan, slider, tick marks, label, dan legend
     with col_left:
-        # 2a. Judul halaman
         st.markdown("<h1>Changing Borders</h1>", unsafe_allow_html=True)
 
-        # 2b. Kotak penjelasan semi‐transparan
         st.markdown(
             """
             <div class="div-box" style="margin-bottom:1.5rem;">
@@ -134,24 +130,23 @@ def show_changing_borders():
                 Each year reflects major geopolitical events that reshaped land and lives.
               </p>
               <p style="font-size:0.9rem; color:#FFFFFF;">
-                *Geser slider di bawah untuk memilih tahun dan melihat peta interaktifnya.*
+                *Use the slider below to select a year and view the interactive map.*
               </p>
             </div>
             """,
             unsafe_allow_html=True
         )
 
-        # 2c. Daftar tahun (discrete)
+        # slider
         years = [1918, 1947, 1960, 2015]
         selected_year = st.select_slider(
-            label="Pilih Tahun:",
+            label="Select Year:",
             options=years,
             value=1918,             # default value
             format_func=lambda x: str(x),
             key="border_year_slider"
         )
 
-        # 2d. Tick marks di bawah slider agar jelas hanya empat pilihan
         st.markdown(
             """
             <div style="
@@ -170,21 +165,19 @@ def show_changing_borders():
             unsafe_allow_html=True
         )
 
-        # 2e. Tampilkan tahun terpilih
         st.markdown(
             f"""
             <div style="margin-top: 0.5rem; color: #FFFFFF;">
-                <strong>Tahun terpilih:</strong> 
+                <strong>Selected Year:</strong> 
                 <span style="color:{COLOR_ACCENT}; font-size:1.2rem;">{selected_year}</span>
             </div>
             """,
             unsafe_allow_html=True
         )
 
-        # 2f. Spasi kecil
         st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
-        # 2g. Legenda warna (Israel vs Palestine)
+        # color legend for map
         st.markdown(
             f"""
             <div style="
@@ -216,33 +209,29 @@ def show_changing_borders():
             unsafe_allow_html=True
         )
 
-    # 3. DI DALAM KOLONG KANAN: Tampilkan gambar sesuai tahun terpilih
     with col_right:
-        # 3a. Tentukan path gambar berdasarkan selected_year
         if   selected_year == 1918: img_path = "assets/1918.png"
         elif selected_year == 1947: img_path = "assets/1947.png"
         elif selected_year == 1960: img_path = "assets/1960.png"
         elif selected_year == 2015: img_path = "assets/2015.png"
         else:                       img_path = None
 
-        # 3b. Tampilkan gambar peta (atur lebar agar proporsional dengan kolom)
         if img_path:
             try:
                 image = Image.open(img_path)
                 st.image(
                     image,
                     caption=f"Map year {selected_year}",
-                    width=200  # atur lebar sesuai kebutuhan
+                    width=200
                 )
             except FileNotFoundError:
-                st.error("Gagal memuat gambar: file tidak ditemukan di folder assets/.")
+                st.error("Failed to load image: file not found in assets/ folder.")
         else:
-            st.error("Tahun tidak valid atau file gambar belum tersedia.")
+            st.error("Invalid year or image file not yet available.")
 
-    # 4. Spacer di bawah agar konten berikutnya tidak terlalu menempel
     st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
-# 4.2 Halaman "The Population"
+# 4.2 "The Population" Page
 def show_population():
     st.markdown("<h1>The Population</h1>", unsafe_allow_html=True)
     st.markdown(
@@ -259,7 +248,7 @@ def show_population():
     )
 
     # ------------------------------
-    # 4.2.1 Load dataset Populasi
+    # 4.2.1 Load Population Dataset
     # ------------------------------
     url_palestine = "https://drive.google.com/uc?id=1Kr3mWDhTErT9OlibX_aBaHVtNvRTlZhx"
     url_israel    = "https://drive.google.com/uc?id=1pfdUGsK4uKs-c7KUQ_zsnKVOkWadu0cw"
@@ -268,7 +257,7 @@ def show_population():
     def load_population_data():
         df_p = pd.read_csv(url_palestine)
         df_i = pd.read_csv(url_israel)
-        # Bersihkan kolom string (hilangkan ',' dan '%')
+        # Clean string columns (remove ',' and '%')
         for df in (df_p, df_i):
             df["Population"]       = pd.to_numeric(df["Population"].str.replace(",", ""), errors="coerce")
             df["Yearly % Change"]  = pd.to_numeric(df["Yearly % Change"].str.replace("%", ""), errors="coerce")
@@ -284,7 +273,7 @@ def show_population():
 
     df_p, df_i = load_population_data()
 
-    # Gabungkan kedua df untuk chart trend
+    # Combine both dataframes for trend chart
     population_combined = pd.concat([
         df_p[["Year", "Population", "Country"]],
         df_i[["Year", "Population", "Country"]]
@@ -293,7 +282,7 @@ def show_population():
     # ------------------------------
     # 4.2.2 Chart 1: Population Trend (Line Chart)
     # ------------------------------
-    st.markdown("<h3>Overview Per Tahun</h3>", unsafe_allow_html=True)
+    st.markdown("<h3>Yearly Overview</h3>", unsafe_allow_html=True)
 
     fig_trend = px.line(
         population_combined,
@@ -305,8 +294,8 @@ def show_population():
         labels={"Population": "Population", "Year": "Year"},
     )
     fig_trend.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",    # transparan
-        paper_bgcolor="rgba(0,0,0,0)",   # transparan
+        plot_bgcolor="rgba(0,0,0,0)",    # transparent
+        paper_bgcolor="rgba(0,0,0,0)",   # transparent
         font=dict(color=COLOR_WHITE),
         legend=dict(
             title="", 
@@ -319,7 +308,7 @@ def show_population():
     st.plotly_chart(fig_trend, use_container_width=True)
 
     # ------------------------------
-    # 4.2.3 Chart 2: Yearly Growth Rate (Line Chart terpisah)
+    # 4.2.3 Chart 2: Yearly Growth Rate (Separate Line Charts)
     # ------------------------------
     col1, col2 = st.columns(2)
 
@@ -362,7 +351,7 @@ def show_population():
         st.plotly_chart(fig_grow_i, use_container_width=True)
 
 
-# 4.3 Halaman "The Cost"
+# 4.3 "The Cost" Page
 def show_cost():
     st.markdown("<h1>The Cost</h1>", unsafe_allow_html=True)
     st.markdown(
@@ -380,18 +369,18 @@ def show_cost():
     )
 
     # -----------------------------------
-    # 4.3.1 Load dataset death/casualties
+    # 4.3.1 Load death/casualties dataset
     # -----------------------------------
     url_body_complete = "https://drive.google.com/uc?id=1wwXqjPVl2Uv81Xs8XANO2AhViMnVPcbD"  # dataset with gender, date, age, citizenship
-    url_body_simple   = "https://drive.google.com/uc?id=1rCjmp3-wjvqD7a0TmorOUDXv1cqnpczC"  # dataset tanpa gender
+    url_body_simple   = "https://drive.google.com/uc?id=1rCjmp3-wjvqD7a0TmorOUDXv1cqnpczC"  # dataset without gender
     @st.cache_data(show_spinner=False)
     def load_death_data():
         df_full = pd.read_csv(url_body_complete, encoding="windows-1252")
         df_simple = pd.read_csv(url_body_simple)
-        # Convert Date of Death ke datetime
+        # Convert Date of Death to datetime
         df_full["Date of death"] = pd.to_datetime(df_full["Date of death"], errors="coerce")
         df_full = df_full.dropna(subset=["Date of death"])
-        # Kolom Age di‐convert int
+        # Convert Age column to int
         df_full["Age"] = pd.to_numeric(df_full["Age"], errors="coerce").fillna(0).astype(int)
         return df_full, df_simple
 
@@ -426,7 +415,7 @@ def show_cost():
     # ---------------------------------------
     # 4.3.3 Line Chart Deaths per Year (2000–2021)
     # ---------------------------------------
-    st.markdown("<h3>Death per Year (2000–2021)</h3>", unsafe_allow_html=True)
+    st.markdown("<h3>Deaths per Year (2000–2021)</h3>", unsafe_allow_html=True)
     death_counts_year = df_filtered.groupby(["Citizenship", "Year"]).size().reset_index(name="Deaths")
 
     death_israeli = death_counts_year[death_counts_year["Citizenship"] == "Israeli"]
@@ -462,18 +451,18 @@ def show_cost():
     st.markdown("***")
 
     # -----------------------------------------------------------
-    # 4.3.4 Heatmap Death per Bulan × Tahun (Tanggal 2000–2021)
+    # 4.3.4 Heatmap Deaths per Month × Year (Date 2000–2021)
     # -----------------------------------------------------------
-    st.markdown("<h3>Monthly Cost (Heatmap per Bulan×Tahun)</h3>", unsafe_allow_html=True)
+    st.markdown("<h3>Monthly Cost (Heatmap per Month×Year)</h3>", unsafe_allow_html=True)
 
-    # Buat custom colormap untuk heatmap
+    # Create custom colormap for heatmap
     custom_cmap = LinearSegmentedColormap.from_list("custom", ['#FFFFFF', COLOR_ACCENT, COLOR_PRIMARY])
 
-    # Pivot table untuk masing-masing group
+    # Pivot table for each group
     def prepare_heatmap(df_group, title_group):
         pivot = df_group.groupby([df_group["Date of death"].dt.month, df_group["Date of death"].dt.year]) \
                         .size().unstack(fill_value=0)
-        # Ubah index angka bulan jadi nama bulan
+        # Change month number index to month names
         month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
         pivot.index = [month_names[m-1] for m in pivot.index]
         return pivot
@@ -526,11 +515,11 @@ def show_cost():
     st.markdown("***")
 
     # ----------------------------------
-    # 4.3.5 Pie Chart Death by Gender
+    # 4.3.5 Pie Chart Deaths by Gender
     # ----------------------------------
     st.markdown("<h3>Deaths by Gender</h3>", unsafe_allow_html=True)
 
-    # Hanya valid gender F/M
+    # Only valid gender F/M
     df_gender = df_full[df_full["Gender"].isin(["F","M"])].copy()
     df_gender["Gender Label"] = df_gender["Gender"].map({"F":"Female","M":"Male"})
 
@@ -568,11 +557,11 @@ def show_cost():
     st.markdown("***")
 
     # -----------------------------------
-    # 4.3.6 Bar Chart Death by Age Group
+    # 4.3.6 Bar Chart Deaths by Age Group
     # -----------------------------------
     st.markdown("<h3>Deaths by Age Group & Gender</h3>", unsafe_allow_html=True)
 
-    # Siapkan data: age‐group + gender untuk masing‐masing side
+    # Prepare data: age-group + gender for each side
     valid_df = df_full[df_full["Gender"].isin(["F","M"]) & (df_full["Age"] > 0)].copy()
     age_bins = [0, 17, 30, 45, 60, 75, 120]
     age_labels = ["0-17","18-30","31-45","46-60","61-75","76+"]
@@ -581,7 +570,7 @@ def show_cost():
 
     def plot_age_bar(df_group, title_group):
         grouped = df_group.groupby(["Age Group","Gender Label"]).size().unstack(fill_value=0)
-        # Buat DataFrame baru untuk Plotly
+        # Create new DataFrame for Plotly
         df_plot = grouped.reset_index().melt(id_vars="Age Group", value_vars=["Female","Male"], var_name="Gender", value_name="Count")
         fig = px.bar(
             df_plot,
@@ -617,7 +606,7 @@ def show_cost():
         st.plotly_chart(fig_age_pale, use_container_width=True)
 
 
-# 4.4 Halaman "Data Sources"
+# 4.4 "Data Sources" Page
 def show_data_sources():
     st.markdown("<h1>Data Sources</h1>", unsafe_allow_html=True)
     st.markdown(
@@ -636,7 +625,7 @@ def show_data_sources():
 
 
 # ---------------------------------------------------------------
-# 5. MAIN: Pilih fungsi yang akan dijalankan berdasarkan menu
+# 5. MAIN: Choose function to run based on menu
 # ---------------------------------------------------------------
 if menu == "Changing Borders":
     show_changing_borders()
