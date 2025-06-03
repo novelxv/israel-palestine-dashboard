@@ -114,30 +114,133 @@ menu = st.radio(
 # 4. FUNGSIONALITAS MENGISI SETIAP HALAMAN (PAGE) BERDASARKAN MENU
 # ---------------------------------------------------------------
 
-# 4.1 Halaman "Changing Borders" (todo: sementara placeholder)
+# 4.1 Halaman "Changing Borders"
 def show_changing_borders():
-    st.markdown("<h1>Changing Borders</h1>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <div class="div-box">
-        <p>
-        This interactive map will trace shifting borders between Israel and Palestine over time, 
-        visualizing territorial changes from 1947 to present. 
-        Each year reflects major geopolitical events that reshaped land and lives.
-        </p>
-        <p style="font-size:0.9rem; color:#FFFFFF;">
-        *Klik tombol di bawah nanti untuk memilih tahun dan melihat peta interaktif.*
-        </p>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
+    # 1. Bagi menjadi dua kolom dengan lebar sama (1:1)
+    col_left, col_right = st.columns([2, 1])
 
-    # Placeholder untuk dropdown tahun & peta
-    tahun = st.slider("Pilih Tahun:", 1947, 2021, 1967, step=1)
-    st.info(f"🗺️ [Placeholder] Peta untuk tahun {tahun} akan di‐render di sini.")
-    st.write("Map + grafik interaktif di bagian ini menyusul (geojson + folium/plotly).")
+    # 2. DI DALAM KOLONG KIRI: Judul, kotak penjelasan, slider, tick marks, label, dan legend
+    with col_left:
+        # 2a. Judul halaman
+        st.markdown("<h1>Changing Borders</h1>", unsafe_allow_html=True)
 
+        # 2b. Kotak penjelasan semi‐transparan
+        st.markdown(
+            """
+            <div class="div-box" style="margin-bottom:1.5rem;">
+              <p>
+                This interactive map traces the shifting borders between Israel and Palestine over time, 
+                visualizing the transformation of territorial control from 1918, 1947, 1960, to 2015. 
+                Each year reflects major geopolitical events that reshaped land and lives.
+              </p>
+              <p style="font-size:0.9rem; color:#FFFFFF;">
+                *Geser slider di bawah untuk memilih tahun dan melihat peta interaktifnya.*
+              </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # 2c. Daftar tahun (discrete)
+        years = [1918, 1947, 1960, 2015]
+        selected_year = st.select_slider(
+            label="Pilih Tahun:",
+            options=years,
+            value=1918,             # default value
+            format_func=lambda x: str(x),
+            key="border_year_slider"
+        )
+
+        # 2d. Tick marks di bawah slider agar jelas hanya empat pilihan
+        st.markdown(
+            """
+            <div style="
+                display: flex; 
+                justify-content: space-between; 
+                padding: 0 0.5rem; 
+                margin-top: -0.5rem; 
+                font-size: 0.9rem; 
+                color: #FFFFFF;">
+              <span>1918</span>
+              <span>1947</span>
+              <span>1960</span>
+              <span>2015</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # 2e. Tampilkan tahun terpilih
+        st.markdown(
+            f"""
+            <div style="margin-top: 0.5rem; color: #FFFFFF;">
+                <strong>Tahun terpilih:</strong> 
+                <span style="color:{COLOR_ACCENT}; font-size:1.2rem;">{selected_year}</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        # 2f. Spasi kecil
+        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
+
+        # 2g. Legenda warna (Israel vs Palestine)
+        st.markdown(
+            f"""
+            <div style="
+                display: flex; 
+                align-items: center; 
+                gap: 1rem; 
+                margin-top: 0.5rem;
+            ">
+              <div style="
+                  width:20px; 
+                  height:20px; 
+                  background-color:#020404; 
+                  border-radius:3px;
+                  border:1px solid #FFFFFF;
+                  ">
+              </div>
+              <span style="color:#FFFFFF; font-size:0.95rem;">Israel</span>
+              <div style="
+                  width:20px; 
+                  height:20px; 
+                  background-color:{COLOR_ACCENT}; 
+                  border-radius:3px;
+                  border:1px solid #FFFFFF;
+                  ">
+              </div>
+              <span style="color:#FFFFFF; font-size:0.95rem;">Palestine</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # 3. DI DALAM KOLONG KANAN: Tampilkan gambar sesuai tahun terpilih
+    with col_right:
+        # 3a. Tentukan path gambar berdasarkan selected_year
+        if   selected_year == 1918: img_path = "assets/1918.png"
+        elif selected_year == 1947: img_path = "assets/1947.png"
+        elif selected_year == 1960: img_path = "assets/1960.png"
+        elif selected_year == 2015: img_path = "assets/2015.png"
+        else:                       img_path = None
+
+        # 3b. Tampilkan gambar peta (atur lebar agar proporsional dengan kolom)
+        if img_path:
+            try:
+                image = Image.open(img_path)
+                st.image(
+                    image,
+                    caption=f"Map year {selected_year}",
+                    width=200  # atur lebar sesuai kebutuhan
+                )
+            except FileNotFoundError:
+                st.error("Gagal memuat gambar: file tidak ditemukan di folder assets/.")
+        else:
+            st.error("Tahun tidak valid atau file gambar belum tersedia.")
+
+    # 4. Spacer di bawah agar konten berikutnya tidak terlalu menempel
+    st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
 # 4.2 Halaman "The Population"
 def show_population():
