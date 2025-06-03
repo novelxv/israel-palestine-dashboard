@@ -62,9 +62,14 @@ body, * {
 /* Main titles & subtitles using Bernard MT Condensed */
 h1 {
     font-family: 'Bernard MT Condensed', serif !important;
-    color: #E5C056;
+    color: #FFFFF;
     margin-bottom: 0.25rem;
 }
+h1 .highlight {
+    font-family: 'Bernard MT Condensed', serif !important; 
+    color: #E5C056;
+}
+
 h2 {
     font-family: 'Bernard MT Condensed', serif !important;
     color: #E5C056;
@@ -102,12 +107,46 @@ COLOR_WHITE   = "#FFFFFF"
 # ---------------------------------------------------------------------------
 # 3. HORIZONTAL NAVIGATION (top menu bar)
 # ---------------------------------------------------------------------------
+
+st.markdown(
+    """
+    <style>
+    .navbar-title {
+        font-family: 'Bernard MT Condensed', serif !important;
+        font-size: 3rem;
+        color: #FFFFFF;
+        margin: 0;
+    }
+    .navbar-title .highlight {
+        font-family: 'Bernard MT Condensed', serif !important;
+        color: #E5C056;
+    }
+    .navbar-menu {
+        display: inline-block;
+    }
+    </style>
+
+    <div class="navbar-container">
+      <div class="navbar-title">Lines Drawn <span class="highlight">Lives Lost</span></div>
+      <div class="navbar-menu">
+    """,
+    unsafe_allow_html=True
+)
+
 menu = st.radio(
-    "", 
+    "",
     ("Changing Borders", "The Population", "The Cost", "Data Sources"),
     horizontal=True,
     index=0,
     label_visibility="collapsed"
+)
+
+st.markdown(
+    """
+      </div>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 # ---------------------------------------------------------------
@@ -119,7 +158,7 @@ def show_changing_borders():
     col_left, col_right = st.columns([2, 1])
 
     with col_left:
-        st.markdown("<h1>Changing Borders</h1>", unsafe_allow_html=True)
+        st.markdown("<h1>Changing <span class='highlight'>Borders</span></h1>", unsafe_allow_html=True)
 
         st.markdown(
             """
@@ -233,7 +272,7 @@ def show_changing_borders():
 
 # 4.2 "The Population" Page
 def show_population():
-    st.markdown("<h1>The Population</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>The <span class='highlight'>Population</span></h1>", unsafe_allow_html=True)
     st.markdown(
         """
         <div class="div-box">
@@ -353,7 +392,7 @@ def show_population():
 
 # 4.3 "The Cost" Page
 def show_cost():
-    st.markdown("<h1>The Cost</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>The <span class='highlight'>Cost</span></h1>", unsafe_allow_html=True)
     st.markdown(
         """
         <div class="div-box">
@@ -608,7 +647,7 @@ def show_cost():
 
 # 4.4 "Data Sources" Page
 def show_data_sources():
-    st.markdown("<h1>Data Sources</h1>", unsafe_allow_html=True)
+    st.markdown("<h1>Data <span class='highlight'>Sources</span></h1>", unsafe_allow_html=True)
     st.markdown(
         """
         <div class="div-box">
