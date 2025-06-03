@@ -532,7 +532,7 @@ def show_population():
                 f"""
                 <div class="growth-overview">
                     <h3 class="growth-subtitle" style="color:{COLOR_WHITE};">
-                        <span style="color:{COLOR_ACCENT};">Israeli</span> Growth
+                        <span style="color:{COLOR_ACCENT}">Israeli</span> Growth
                     </h3>
                     <div class="growth-number" style="color:{COLOR_ACCENT};">
                         {growth_arrow} {isr_growth:+.1f}%
@@ -706,7 +706,7 @@ def show_cost():
     with overview_col1:
         st.markdown(f"<h2 style='color:{COLOR_WHITE};'>Over</h2>", unsafe_allow_html=True)
         st.markdown(f"<h1 style='font-size:2.5rem; color:{COLOR_ACCENT}; margin-top:-1rem;'>{total_deaths:,}</h1>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color:{COLOR_WHITE}; font-size:0.9rem;'>lives lost across all sides since 1948.</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='color:{COLOR_WHITE}; font-size:0.9rem;'>lives lost across all sides since 2000.</p>", unsafe_allow_html=True)
     with overview_col2:
         st.markdown(f"<h3 style='color:{COLOR_WHITE};'><span style='color:{COLOR_ACCENT};'>Palestinian</span> lives lost</h3>", unsafe_allow_html=True)
         st.markdown(f"<h2 style='color:{COLOR_ACCENT};'>{palestinian_deaths:,}</h2>", unsafe_allow_html=True)
@@ -840,33 +840,45 @@ def show_cost():
     iso_gender  = df_gender[df_gender["Citizenship"] == "Israeli"]["Gender Label"].value_counts()
     pale_gender = df_gender[df_gender["Citizenship"] == "Palestinian"]["Gender Label"].value_counts()
 
-    fig_gender = make_subplots(rows=1, cols=2,
-                               specs=[[{"type":"domain"}, {"type":"domain"}]],
-                               subplot_titles=("Israeli Deaths by Gender", "Palestinian Deaths by Gender"))
-    fig_gender.add_trace(go.Pie(
-        labels=iso_gender.index,
-        values=iso_gender.values,
-        name="Israeli",
-        marker_colors=[COLOR_PRIMARY, COLOR_ACCENT],
-        hole=0.4
-    ), row=1, col=1)
-    fig_gender.add_trace(go.Pie(
-        labels=pale_gender.index,
-        values=pale_gender.values,
-        name="Palestinian",
-        marker_colors=[COLOR_PRIMARY, COLOR_ACCENT],
-        hole=0.4
-    ), row=1, col=2)
-
-    fig_gender.update_traces(textinfo="percent+label")
-    fig_gender.update_layout(
-        plot_bgcolor="rgba(255,255,255,1)",
-        paper_bgcolor="rgba(255,255,255,1)",
-        font=dict(color="#000000"),
-        legend=dict(font=dict(color="#000000")),
-        margin=dict(t=50, b=20, l=20, r=20)
-    )
-    st.plotly_chart(fig_gender, use_container_width=True)
+    col_g1, col_g2 = st.columns(2)
+    
+    with col_g1:
+        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Israeli Deaths by Gender</h4>", unsafe_allow_html=True)
+        fig_iso_gender = go.Figure(data=[go.Pie(
+            labels=iso_gender.index,
+            values=iso_gender.values,
+            marker_colors=[COLOR_PRIMARY, COLOR_ACCENT],
+            hole=0.4,
+            textinfo="percent+label"
+        )])
+        fig_iso_gender.update_layout(
+            plot_bgcolor="rgba(255,255,255,1)",
+            paper_bgcolor="rgba(255,255,255,1)",
+            font=dict(color="#000000"),
+            legend=dict(font=dict(color="#000000")),
+            margin=dict(t=20, b=20, l=20, r=20),
+            showlegend=True
+        )
+        st.plotly_chart(fig_iso_gender, use_container_width=True)
+    
+    with col_g2:
+        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Palestinian Deaths by Gender</h4>", unsafe_allow_html=True)
+        fig_pale_gender = go.Figure(data=[go.Pie(
+            labels=pale_gender.index,
+            values=pale_gender.values,
+            marker_colors=[COLOR_PRIMARY, COLOR_ACCENT],
+            hole=0.4,
+            textinfo="percent+label"
+        )])
+        fig_pale_gender.update_layout(
+            plot_bgcolor="rgba(255,255,255,1)",
+            paper_bgcolor="rgba(255,255,255,1)",
+            font=dict(color="#000000"),
+            legend=dict(font=dict(color="#000000")),
+            margin=dict(t=20, b=20, l=20, r=20),
+            showlegend=True
+        )
+        st.plotly_chart(fig_pale_gender, use_container_width=True)
 
     st.markdown("***")
 
@@ -893,8 +905,7 @@ def show_cost():
             color="Gender",
             barmode="group",
             color_discrete_map={"Female": COLOR_ACCENT, "Male": COLOR_PRIMARY},
-            labels={"Count":"Number of Deaths", "Age Group":"Age Group", "Gender":"Gender"},
-            title=title_group
+            labels={"Count":"Number of Deaths", "Age Group":"Age Group", "Gender":"Gender"}
         )
         fig.update_layout(
             plot_bgcolor="rgba(255,255,255,1)",
@@ -909,7 +920,8 @@ def show_cost():
                 tickfont=dict(color="#000000")
             ),
             legend=dict(title="", font=dict(color="#000000")),
-            margin=dict(t=40, b=20, l=20, r=20)
+            margin=dict(t=40, b=20, l=20, r=20),
+            showlegend=True
         )
         return fig
 
@@ -921,8 +933,10 @@ def show_cost():
 
     col_a1, col_a2 = st.columns(2)
     with col_a1:
+        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Israeli Deaths by Age Group & Gender</h4>", unsafe_allow_html=True)
         st.plotly_chart(fig_age_iso, use_container_width=True)
     with col_a2:
+        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Palestinian Deaths by Age Group & Gender</h4>", unsafe_allow_html=True)
         st.plotly_chart(fig_age_pale, use_container_width=True)
 
 
