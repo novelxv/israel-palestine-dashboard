@@ -333,16 +333,26 @@ def show_population():
         labels={"Population": "Population", "Year": "Year"},
     )
     fig_trend.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",    # transparent
-        paper_bgcolor="rgba(0,0,0,0)",   # transparent
-        font=dict(color=COLOR_WHITE),
+        plot_bgcolor="rgba(255,255,255,1)",
+        paper_bgcolor="rgba(255,255,255,1)",
+        font=dict(color="#000000"),
         legend=dict(
             title="", 
-            font=dict(color=COLOR_WHITE),
-            bgcolor="rgba(0,0,0,0)"
+            font=dict(color="#000000"),
+            bgcolor="rgba(255,255,255,1)"
         ),
-        xaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
-        yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
+        xaxis=dict(
+            title=dict(text="Year", font=dict(size=14, color="#000000")),
+            showgrid=True, 
+            gridcolor="rgba(0,0,0,0.1)", 
+            tickfont=dict(color="#000000")
+        ),
+        yaxis=dict(
+            title=dict(text="Population", font=dict(size=14, color="#000000")),
+            showgrid=True, 
+            gridcolor="rgba(0,0,0,0.1)", 
+            tickfont=dict(color="#000000")
+        ),
     )
     st.plotly_chart(fig_trend, use_container_width=True)
 
@@ -362,11 +372,21 @@ def show_population():
             labels={"Yearly % Change": "Growth Rate (%)", "Year": "Year"},
         )
         fig_grow_p.update_layout(
-            plot_bgcolor="rgba(0,0,0,0)",
-            paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=COLOR_WHITE),
-            xaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
-            yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
+            plot_bgcolor="rgba(255,255,255,1)",
+            paper_bgcolor="rgba(255,255,255,1)",
+            font=dict(color="#000000"),
+            xaxis=dict(
+                title=dict(text="Year", font=dict(size=14, color="#000000")),
+                showgrid=True, 
+                gridcolor="rgba(0,0,0,0.1)", 
+                tickfont=dict(color="#000000")
+            ),
+            yaxis=dict(
+                title=dict(text="Growth Rate (%)", font=dict(size=14, color="#000000")),
+                showgrid=True, 
+                gridcolor="rgba(0,0,0,0.1)", 
+                tickfont=dict(color="#000000")
+            ),
         )
         st.plotly_chart(fig_grow_p, use_container_width=True)
 
@@ -381,11 +401,21 @@ def show_population():
             labels={"Yearly % Change": "Growth Rate (%)", "Year": "Year"},
         )
         fig_grow_i.update_layout(
-            plot_bgcolor="rgba(0,0,0,0)",
-            paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=COLOR_WHITE),
-            xaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
-            yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
+            plot_bgcolor="rgba(255,255,255,1)",
+            paper_bgcolor="rgba(255,255,255,1)",
+            font=dict(color="#000000"),
+            xaxis=dict(
+                title=dict(text="Year", font=dict(size=14, color="#000000")),
+                showgrid=True, 
+                gridcolor="rgba(0,0,0,0.1)", 
+                tickfont=dict(color="#000000")
+            ),
+            yaxis=dict(
+                title=dict(text="Growth Rate (%)", font=dict(size=14, color="#000000")),
+                showgrid=True, 
+                gridcolor="rgba(0,0,0,0.1)", 
+                tickfont=dict(color="#000000")
+            ),
         )
         st.plotly_chart(fig_grow_i, use_container_width=True)
 
@@ -478,12 +508,22 @@ def show_cost():
         marker=dict(size=6)
     ))
     fig_line.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color=COLOR_WHITE),
-        xaxis=dict(title="Year", showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
-        yaxis=dict(title="Number of Deaths", showgrid=True, gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color=COLOR_WHITE)),
-        legend=dict(title="", font=dict(color=COLOR_WHITE), bgcolor="rgba(0,0,0,0)"),
+        plot_bgcolor="rgba(255,255,255,1)",
+        paper_bgcolor="rgba(255,255,255,1)",
+        font=dict(color="#000000"),
+        xaxis=dict(
+            title=dict(text="Year", font=dict(size=14, color="#000000")),
+            showgrid=True, 
+            gridcolor="rgba(0,0,0,0.1)", 
+            tickfont=dict(color="#000000")
+        ),
+        yaxis=dict(
+            title=dict(text="Number of Deaths", font=dict(size=14, color="#000000")),
+            showgrid=True, 
+            gridcolor="rgba(0,0,0,0.1)", 
+            tickfont=dict(color="#000000")
+        ),
+        legend=dict(title="", font=dict(color="#000000"), bgcolor="rgba(255,255,255,1)"),
     )
     st.plotly_chart(fig_line, use_container_width=True)
 
@@ -492,7 +532,7 @@ def show_cost():
     # -----------------------------------------------------------
     # 4.3.4 Heatmap Deaths per Month × Year (Date 2000–2021)
     # -----------------------------------------------------------
-    st.markdown("<h3>Monthly Cost (Heatmap per Month×Year)</h3>", unsafe_allow_html=True)
+    st.markdown("<h3>Monthly Cost (Heatmap per Month & Year)</h3>", unsafe_allow_html=True)
 
     # Create custom colormap for heatmap
     custom_cmap = LinearSegmentedColormap.from_list("custom", ['#FFFFFF', COLOR_ACCENT, COLOR_PRIMARY])
@@ -514,7 +554,7 @@ def show_cost():
 
     col_h1, col_h2 = st.columns(2)
     with col_h1:
-        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Israeli Deaths per Month×Year</h4>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Israeli Deaths per Month & Year</h4>", unsafe_allow_html=True)
         fig_iso_heat = px.imshow(
             heat_iso,
             aspect="auto",
@@ -522,18 +562,18 @@ def show_cost():
             labels=dict(x="Year", y="Month", color="Number of Deaths"),
         )
         fig_iso_heat.update_layout(
-            plot_bgcolor="rgba(0,0,0,0)",
-            paper_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(tickfont=dict(color=COLOR_WHITE)),
-            yaxis=dict(tickfont=dict(color=COLOR_WHITE)),
-            font=dict(color=COLOR_WHITE),
+            plot_bgcolor="rgba(255,255,255,1)",
+            paper_bgcolor="rgba(255,255,255,1)",
+            xaxis=dict(tickfont=dict(color="#000000")),
+            yaxis=dict(tickfont=dict(color="#000000")),
+            font=dict(color="#000000"),
             coloraxis_showscale=True,
             margin=dict(t=20, b=20, l=20, r=20)
         )
         st.plotly_chart(fig_iso_heat, use_container_width=True)
 
     with col_h2:
-        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Palestinian Deaths per Month×Year</h4>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color: " + COLOR_ACCENT + ";'>Palestinian Deaths per Month & Year</h4>", unsafe_allow_html=True)
         fig_pale_heat = px.imshow(
             heat_pale,
             aspect="auto",
@@ -541,11 +581,11 @@ def show_cost():
             labels=dict(x="Year", y="Month", color="Number of Deaths"),
         )
         fig_pale_heat.update_layout(
-            plot_bgcolor="rgba(0,0,0,0)",
-            paper_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(tickfont=dict(color=COLOR_WHITE)),
-            yaxis=dict(tickfont=dict(color=COLOR_WHITE)),
-            font=dict(color=COLOR_WHITE),
+            plot_bgcolor="rgba(255,255,255,1)",
+            paper_bgcolor="rgba(255,255,255,1)",
+            xaxis=dict(tickfont=dict(color="#000000")),
+            yaxis=dict(tickfont=dict(color="#000000")),
+            font=dict(color="#000000"),
             coloraxis_showscale=True,
             margin=dict(t=20, b=20, l=20, r=20)
         )
@@ -585,10 +625,10 @@ def show_cost():
 
     fig_gender.update_traces(textinfo="percent+label")
     fig_gender.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color=COLOR_WHITE),
-        legend=dict(font=dict(color=COLOR_WHITE)),
+        plot_bgcolor="rgba(255,255,255,1)",
+        paper_bgcolor="rgba(255,255,255,1)",
+        font=dict(color="#000000"),
+        legend=dict(font=dict(color="#000000")),
         margin=dict(t=50, b=20, l=20, r=20)
     )
     st.plotly_chart(fig_gender, use_container_width=True)
@@ -622,12 +662,18 @@ def show_cost():
             title=title_group
         )
         fig.update_layout(
-            plot_bgcolor="rgba(0,0,0,0)",
-            paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=COLOR_WHITE),
-            xaxis=dict(tickfont=dict(color=COLOR_WHITE)),
-            yaxis=dict(tickfont=dict(color=COLOR_WHITE)),
-            legend=dict(title="", font=dict(color=COLOR_WHITE)),
+            plot_bgcolor="rgba(255,255,255,1)",
+            paper_bgcolor="rgba(255,255,255,1)",
+            font=dict(color="#000000"),
+            xaxis=dict(
+                title=dict(text="Age Group", font=dict(size=14, color="#000000")),
+                tickfont=dict(color="#000000")
+            ),
+            yaxis=dict(
+                title=dict(text="Number of Deaths", font=dict(size=14, color="#000000")),
+                tickfont=dict(color="#000000")
+            ),
+            legend=dict(title="", font=dict(color="#000000")),
             margin=dict(t=40, b=20, l=20, r=20)
         )
         return fig
