@@ -92,6 +92,22 @@ h3 {
     border-radius: 8px;
 }
 
+/* Custom Footer */
+.custom-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(43, 45, 66, 0.9);
+    color: #E5C056;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 14px;
+    z-index: 999;
+    border-top: 1px solid rgba(229, 192, 86, 0.3);
+}
+
 /* Hide default Streamlit menu & footer if desired */
 # MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
@@ -260,8 +276,17 @@ def show_changing_borders():
                 image = Image.open(img_path)
                 st.image(
                     image,
-                    caption=f"Map year {selected_year}",
+                    use_container_width=False,
                     width=200
+                )
+                st.markdown(
+                    f"""
+                    <p style="color: #FFFFFF; font-weight: bold; 
+                              margin-top: 0.5rem; font-size: 0.95rem; margin-left: 3.5rem;">
+                      Map year {selected_year}
+                    </p>
+                    """,
+                    unsafe_allow_html=True
                 )
             except FileNotFoundError:
                 st.error("Failed to load image: file not found in assets/ folder.")
@@ -720,3 +745,13 @@ elif menu == "The Cost":
     show_cost()
 elif menu == "Data Sources":
     show_data_sources()
+
+# Add custom footer
+st.markdown(
+    """
+    <div class="custom-footer">
+        © 2024 Visdat Group 5's Dashboard. All rights reserved.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
