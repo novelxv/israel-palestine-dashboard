@@ -932,12 +932,76 @@ def show_data_sources():
     st.markdown(
         """
         <div class="div-box">
-        <ul style="list-style-type: disc; padding-left: 1.5rem; color: #FFFFFF;">
-          <li>Israel vs Palestine Dataset on Kaggle</li>
-          <li>Palestine Body Count 2000–2021 Dataset on Kaggle</li>
-          <li>Israel Population on Worldometer</li>
-          <li>Palestine Population on Worldometer</li>
-        </ul>
+        <p style="color: #FFFFFF; margin-bottom: 1.5rem;">
+        This dashboard is built using various reliable data sources to provide accurate insights 
+        into the Israel-Palestine conflict. Below are the primary datasets and sources used:
+        </p>
+        
+        <div style="margin-bottom: 1rem;">
+            <h4 style="color: #E5C056; margin-bottom: 0.5rem;">Primary Datasets</h4>
+            <ul style="list-style-type: none; padding-left: 0; color: #FFFFFF;">
+                <li style="margin-bottom: 0.8rem; padding-left: 1rem; border-left: 3px solid #E5C056;">
+                    <strong>Israel vs Palestine Dataset</strong><br>
+                    <span style="font-size: 0.9rem; opacity: 0.9;">Comprehensive conflict data including casualties and incidents</span><br>
+                    <a href="https://www.kaggle.com/datasets/zsinghrahulk/israel-vs-palestine/code" 
+                       target="_blank" style="color: #E5C056; text-decoration: none; font-size: 0.9rem;">
+                       🔗 Kaggle Dataset
+                    </a>
+                </li>
+                <li style="margin-bottom: 0.8rem; padding-left: 1rem; border-left: 3px solid #E5C056;">
+                    <strong>Palestine Body Count (2000–2021)</strong><br>
+                    <span style="font-size: 0.9rem; opacity: 0.9;">Detailed casualty data with demographics and dates</span><br>
+                    <a href="https://www.kaggle.com/datasets/zusmani/palestine-body-count/data" 
+                       target="_blank" style="color: #E5C056; text-decoration: none; font-size: 0.9rem;">
+                       🔗 Kaggle Dataset
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <h4 style="color: #E5C056; margin-bottom: 0.5rem;">Population Data</h4>
+            <ul style="list-style-type: none; padding-left: 0; color: #FFFFFF;">
+                <li style="margin-bottom: 0.8rem; padding-left: 1rem; border-left: 3px solid #E5C056;">
+                    <strong>Israel Population Statistics</strong><br>
+                    <span style="font-size: 0.9rem; opacity: 0.9;">Historical and current population data for Israel</span><br>
+                    <a href="https://www.worldometers.info/world-population/israel-population/" 
+                       target="_blank" style="color: #E5C056; text-decoration: none; font-size: 0.9rem;">
+                       🔗 Worldometer
+                    </a>
+                </li>
+                <li style="margin-bottom: 0.8rem; padding-left: 1rem; border-left: 3px solid #E5C056;">
+                    <strong>Palestine Population Statistics</strong><br>
+                    <span style="font-size: 0.9rem; opacity: 0.9;">Historical and current population data for Palestine</span><br>
+                    <a href="https://www.worldometers.info/world-population/state-of-palestine-population/" 
+                       target="_blank" style="color: #E5C056; text-decoration: none; font-size: 0.9rem;">
+                       🔗 Worldometer
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <h4 style="color: #E5C056; margin-bottom: 0.5rem;">Geographic Visualization</h4>
+            <ul style="list-style-type: none; padding-left: 0; color: #FFFFFF;">
+                <li style="margin-bottom: 0.8rem; padding-left: 1rem; border-left: 3px solid #E5C056;">
+                    <strong>Shrinking Palestine Maps</strong><br>
+                    <span style="font-size: 0.9rem; opacity: 0.9;">Historical border changes and territorial control visualization</span><br>
+                    <a href="https://visualizingpalestine.org/visual/shrinking-palestine/" 
+                       target="_blank" style="color: #E5C056; text-decoration: none; font-size: 0.9rem;">
+                       🔗 Visualizing Palestine
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1rem; background-color: rgba(229, 192, 86, 0.1); border-radius: 8px; border-left: 4px solid #E5C056;">
+            <p style="color: #FFFFFF; margin: 0; font-size: 0.9rem; opacity: 0.9;">
+                <strong>Note:</strong> All data presented in this dashboard is sourced from publicly available datasets 
+                and reputable organizations. The visualizations aim to present factual information objectively 
+                to promote understanding of this complex situation.
+            </p>
+        </div>
         </div>
         """,
         unsafe_allow_html=True
