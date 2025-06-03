@@ -437,6 +437,116 @@ def show_population():
 
     df_p, df_i = load_population_data()
 
+    # ------------------------------
+    # 4.2.1.5 Population Growth Overview (1955 vs 2025)
+    # ------------------------------
+    # Calculate population growth from 1955 to 2025
+    def calculate_growth(df, country_name):
+        pop_1955 = df[df["Year"] == 1955]["Population"].iloc[0] if len(df[df["Year"] == 1955]) > 0 else None
+        pop_2025 = df[df["Year"] == 2025]["Population"].iloc[0] if len(df[df["Year"] == 2025]) > 0 else None
+        
+        if pop_1955 and pop_2025:
+            growth_percent = ((pop_2025 - pop_1955) / pop_1955) * 100
+            return pop_1955, pop_2025, growth_percent
+        return None, None, None
+
+    # Get growth data
+    pal_1955, pal_2025, pal_growth = calculate_growth(df_p, "Palestine")
+    isr_1955, isr_2025, isr_growth = calculate_growth(df_i, "Israel")
+
+    # Display overview
+    st.markdown(
+        """
+        <style>
+        .growth-overview {
+            background: linear-gradient(135deg, rgba(43, 45, 66, 0.9), rgba(43, 45, 66, 0.7));
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(229, 192, 86, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .growth-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 0.2rem 0;
+        }
+        .growth-subtitle {
+            margin-bottom: 0.5rem;
+            margin-top: 0;
+        }
+        .growth-description {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("<h3>Population Growth Overview (1955 - 2025)</h3>", unsafe_allow_html=True)
+    
+    overview_col1, overview_col2, overview_col3 = st.columns([1,1,1])
+    
+    with overview_col1:
+        if pal_growth is not None and isr_growth is not None:
+            total_growth = (pal_growth + isr_growth) / 2
+            st.markdown(
+                f"""
+                <div class="growth-overview">
+                    <h3 class="growth-subtitle" style="color:{COLOR_WHITE};">Average Growth</h3>
+                    <div class="growth-number" style="color:{COLOR_ACCENT};">+{total_growth:.1f}%</div>
+                    <p class="growth-description" style="color:{COLOR_WHITE};">
+                        Combined regional population growth over 70 years
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    
+    with overview_col2:
+        if pal_growth is not None:
+            growth_arrow = "↗️" if pal_growth > 0 else "↘️"
+            st.markdown(
+                f"""
+                <div class="growth-overview">
+                    <h3 class="growth-subtitle" style="color:{COLOR_WHITE};">
+                        <span style="color:{COLOR_ACCENT};">Palestinian</span> Growth
+                    </h3>
+                    <div class="growth-number" style="color:{COLOR_ACCENT};">
+                        {growth_arrow} {pal_growth:+.1f}%
+                    </div>
+                    <p class="growth-description" style="color:{COLOR_WHITE};">
+                        From {pal_1955:,.0f} to {pal_2025:,.0f} people
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    
+    with overview_col3:
+        if isr_growth is not None:
+            growth_arrow = "↗️" if isr_growth > 0 else "↘️"
+            st.markdown(
+                f"""
+                <div class="growth-overview">
+                    <h3 class="growth-subtitle" style="color:{COLOR_WHITE};">
+                        <span style="color:{COLOR_ACCENT};">Israeli</span> Growth
+                    </h3>
+                    <div class="growth-number" style="color:{COLOR_ACCENT};">
+                        {growth_arrow} {isr_growth:+.1f}%
+                    </div>
+                    <p class="growth-description" style="color:{COLOR_WHITE};">
+                        From {isr_1955:,.0f} to {isr_2025:,.0f} people
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+    st.markdown("---")
+
     # Combine both dataframes for trend chart
     population_combined = pd.concat([
         df_p[["Year", "Population", "Country"]],
